@@ -19,6 +19,10 @@ class Server implements ServerInterface
     private $host = '';
 
     /**
+     * @var string
+     */
+    private $urlPath = '';
+    /**
      * @var int
      */
     private $port = 0;
@@ -29,12 +33,16 @@ class Server implements ServerInterface
      * @param int $port
      * @param string $schema
      */
-    public function __construct(string $host, int $port = 0, $schema = self::SCHEMA_HTTPS)
+    public function __construct(string $host, int $port = 0, $schema = self::SCHEMA_HTTPS, string $urlPath = '/')
     {
         $this->host = $host;
         if ($port) {
             $this->port = $port;
         }
+        if ($urlPath[0] != '/') {
+            $urlPath = '/' . $urlPath;
+        }
+        $this->urlPath = $urlPath;
         $this->schema = $schema;
     }
 
@@ -52,6 +60,14 @@ class Server implements ServerInterface
     public function getPort(): int
     {
         return $this->port;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrlPath(): string
+    {
+        return $this->urlPath;
     }
 
     /**

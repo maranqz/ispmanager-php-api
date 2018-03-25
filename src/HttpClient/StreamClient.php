@@ -19,6 +19,16 @@ class StreamClient implements HttpClientInterface
     private $params = [];
 
     /**
+     * @var array
+     */
+    private $defaultParams;
+
+    public function __construct($defaultParams = [])
+    {
+        $this->defaultParams = $defaultParams;
+    }
+
+    /**
      * @param string $url
      *
      * @return StreamClient
@@ -46,7 +56,9 @@ class StreamClient implements HttpClientInterface
     public function get(): array
     {
         try {
-            $connection = \fopen($this->url, 'rb', false, \stream_context_create($this->params));
+            $connection = \fopen($this->url, 'rb', false, \stream_context_create(
+                array_merge($this->defaultParams, $this->params)
+            ));
             $response = '';
             while ($data = \fread($connection, 4096)) {
                 $response .= $data;

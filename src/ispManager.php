@@ -130,6 +130,7 @@ class ispManager
     {
         $this->url = $this->server->getSchema() . '://' . $this->server->getHost();
         $this->prepareUrlPort();
+        $this->prepareUrlPath();
         $this->prepareUrlUser();
         $this->prepareUrlFormat();
         $this->prepareUrlFunc();
@@ -143,10 +144,18 @@ class ispManager
     private function prepareUrlPort(): self
     {
         if ($this->server->getPort()) {
-            $this->url .= ':' . $this->server->getPort() . '/?';
+            $this->url .= ':' . $this->server->getPort();
             return $this;
         }
-        $this->url .= '/?';
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    private function prepareUrlPath(): self
+    {
+        $this->url .= $this->server->getUrlPath() . '?';
         return $this;
     }
 

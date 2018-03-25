@@ -21,5 +21,10 @@ interface ServerInterface
     /**
      * @return string
      */
+    public function getUrlPath(): string;
+
+    /**
+     * @return string
+     */
     public function getSchema(): string;
 }
